@@ -18,9 +18,9 @@ load_dotenv()
 API_ID = os.environ.get("API_ID", "")
 API_HASH = os.environ.get("API_HASH", "")
 BOT_TOKEN = os.environ.get("BOT_Token", "")
-ADMIN_ID = int(os.environ.get("ADMIN_ID", ""))
-MONGODB_URI=os.environ.get("MONGODB_URI", "")
-LOG_CHANNEL=os.environ.get("LOG_CHANNEL", "")
+ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
+MONGODB_URI = os.environ.get("MONGODB_URI", "")
+LOG_CHANNEL = os.environ.get("LOG_CHANNEL", "")
 SUPPORTED_EXTENSIONS = (".mp4", ".mkv")
 
 bot = Client("screenshot_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
@@ -119,11 +119,11 @@ async def broadcast_cmd(client, message: Message):
             else:
                 await bot.send_message(chat_id=user_id, text=text)
             sent_count += 1
-            await asyncio.sleep(0.1)  # To avoid hitting flood limits
+            await asyncio.sleep(0.1)  # To avoid flood
         except FloodWait as e:
             await asyncio.sleep(e.value)
         except PeerIdInvalid:
-            users.delete_one({"_id": user_id})  # Remove inactive user
+            users.delete_one({"_id": user_id})
             fail_count += 1
         except Exception:
             fail_count += 1
@@ -156,7 +156,6 @@ async def handle_video(client, message: Message):
 
     await message.reply("Choose how many screenshots (1–20):", reply_markup=build_keyboard())
 
-    # log file send
     stats.update_one({"_id": "summary"}, {"$inc": {"total_files": 1}}, upsert=True)
     await bot.send_message(
         chat_id=LOG_CHANNEL,
@@ -201,11 +200,16 @@ async def handle_screenshot_selection(client, callback_query: CallbackQuery):
         if os.path.exists(f):
             os.remove(f)
 
+# ✅ Updated: Accept HEAD requests too
 class HealthCheckHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
         self.wfile.write(b"OK")
+
+    def do_HEAD(self):
+        self.send_response(200)
+        self.end_headers()
 
 def run_health_server():
     server = HTTPServer(("0.0.0.0", 8080), HealthCheckHandler)
@@ -216,6 +220,6 @@ threading.Thread(target=run_health_server, daemon=True).start()
 async def main():
     await bot.start()
     print("✅ Bot is up and running...")
-    await asyncio.get_event_loop().create_future()  # Keep alive
+    await asyncio.get_event_loop().create_future()
 
 asyncio.run(main())

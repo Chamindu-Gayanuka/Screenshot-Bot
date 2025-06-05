@@ -4,7 +4,6 @@ import shlex
 import subprocess
 import asyncio
 import threading
-from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import *
 from pymongo import MongoClient
@@ -18,7 +17,7 @@ load_dotenv()
 
 API_ID = os.environ.get("API_ID", "")
 API_HASH = os.environ.get("API_HASH", "")
-BOT_TOKEN = os.environ.get("BOT_Token", "")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
 MONGODB_URI = os.environ.get("MONGODB_URI", "")
 LOG_CHANNEL = os.environ.get("LOG_CHANNEL", "-1002603652573")

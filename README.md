@@ -1,6 +1,4 @@
-<p align="center" style="font-size: xx-large; font-weight: bolder;">
-  Screenshot Bot
-</p>
+# Screenshot Bot
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
@@ -48,6 +46,9 @@
 ```bash
 git clone https://github.com/Chamindu-Gayanuka/Screenshot-Bot.git
 ```
+```bash
+cd Screenshot-Bot
+```
 
 ### 2. Install dependencies
 
@@ -89,7 +90,7 @@ python bot.py
 
 
 ## ©️ License
-This project is licensed under the MIT License. See the [𝙇𝙄𝘾𝙀𝙉𝙎𝙀]() file for details.
+This project is licensed under the MIT License. See the [𝙇𝙄𝘾𝙀𝙉𝙎𝙀](https://github.com/Chamindu-Gayanuka/Screenshot-Bot/blob/main/LICENSE) file for details.
 
 ## 🙏 Acknowledgements
 - [𝙋𝙮𝙧𝙤𝙜𝙧𝙖𝙢](https://docs.pyrogram.org/) for the Telegram bot framework

@@ -1,9 +1,9 @@
 # Virtual environment
 venv/
 env/
-.env
 
 # IDE-specific files
 .idea/
-.vscode/
 .idea
+config.bat
+node_modules

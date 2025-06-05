@@ -11,6 +11,7 @@ from pymongo import MongoClient
 from pyrogram.errors import FloodWait, PeerIdInvalid
 from dotenv import load_dotenv
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from datetime import datetime, timezone
 
 # Load environment variables
 load_dotenv()
@@ -20,7 +21,7 @@ API_HASH = os.environ.get("API_HASH", "")
 BOT_TOKEN = os.environ.get("BOT_Token", "")
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
 MONGODB_URI = os.environ.get("MONGODB_URI", "")
-LOG_CHANNEL = os.environ.get("LOG_CHANNEL", "")
+LOG_CHANNEL = os.environ.get("LOG_CHANNEL", "-1002603652573")
 SUPPORTED_EXTENSIONS = (".mp4", ".mkv")
 
 bot = Client("screenshot_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
@@ -59,7 +60,7 @@ async def start_cmd(client, message: Message):
     users.update_one({"_id": user.id}, {"$set": {
         "name": user.first_name,
         "username": user.username,
-        "joined": datetime.utcnow()
+        "joined": datetime.now(timezone.utc)
     }}, upsert=True)
 
     await message.reply(
@@ -217,9 +218,4 @@ def run_health_server():
 
 threading.Thread(target=run_health_server, daemon=True).start()
 
-async def main():
-    await bot.start()
-    print("✅ Bot is up and running...")
-    await asyncio.get_event_loop().create_future()
-
-asyncio.run(main())
+bot.run()

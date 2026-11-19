@@ -3,7 +3,6 @@ venv/
 env/
 
 # IDE-specific files
-.idea/
 .idea
-config.bat
+.vscode
 node_modules
